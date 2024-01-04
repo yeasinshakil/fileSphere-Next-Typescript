@@ -5,8 +5,8 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const Header = () => {
   return (
-    <header className=" flex items-center justify-between">
-      <Link href={"/"} className=" flex items-center gap-1">
+    <header className=" flex items-center justify-between py-1 dark:bg-slate-900">
+      <Link href={"/"} className=" flex items-center gap-1 pl-2">
         <Image
           src={
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Dropbox_Icon.svg/2202px-Dropbox_Icon.svg.png"
@@ -14,7 +14,6 @@ const Header = () => {
           alt="Logo"
           width={50}
           height={50}
-          className=""
         />
         <h1 className=" font-bold text-xl">Dropbox</h1>
       </Link>
