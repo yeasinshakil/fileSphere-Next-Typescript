@@ -1,5 +1,11 @@
+import DropzoneComponent from "@/components/Dropzone";
+import { auth } from "@clerk/nextjs";
+
 const page = () => {
-  return <div>this is dashboard</div>;
+  const {userId} = auth()
+  return <div>
+    <DropzoneComponent />
+  </div>;
 };
 
 export default page;
