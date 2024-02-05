@@ -1,6 +1,9 @@
 "use client";
+import { db, storage } from "@/firebase";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 
@@ -24,6 +27,24 @@ const DropzoneComponent = () => {
     if (!user) return
     setLoading(true)
     // do what needs to be done
+    const docRef = await addDoc(collection(db, 'users', user.id, 'files'), {
+      userId: user.id,
+      fileName: selectedFile.name,
+      fullName: user.fullName,
+      profileImg: user.imageUrl,
+      timestamp: serverTimestamp(),
+      type: selectedFile.type,
+      size: selectedFile.size
+    })
+
+    const imageRef = ref(storage, `users/${user.id}/files/${docRef.id}`)
+    uploadBytes(imageRef, selectedFile).then(async (snapshot) => {
+      const downloadUrl = await getDownloadURL(imageRef);
+
+      await updateDoc(doc(db, 'users', user.id, 'files', docRef.id), {
+        downloadUrl: downloadUrl,
+      })
+    })
     setLoading(false)
   }
   // file size max 20 mb
