@@ -1,4 +1,5 @@
 import DropzoneComponent from "@/components/Dropzone";
+import TableWrapper from "@/components/table/TableWrapper";
 import { db } from "@/firebase";
 import { FileType } from "@/typings";
 import { auth } from "@clerk/nextjs";
@@ -18,11 +19,17 @@ const page = async () => {
     size: doc.data().size
   }))
 
-  console.log(skeletonFile)
+  // console.log(skeletonFile)
 
   return (
-    <div>
+    <div className="border-t">
       <DropzoneComponent />
+      <section className="container space-y-5">
+        <h2 className="font-bold">All Files</h2>
+        <div>
+          <TableWrapper skeletonFiles={skeletonFile} />
+        </div>
+      </section>
     </div>
   );
 };
