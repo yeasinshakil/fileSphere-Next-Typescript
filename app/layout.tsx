@@ -10,10 +10,8 @@ import { ThemeProvider } from "@/components/header/theme-provider";
 import { Toaster } from "react-hot-toast";
 
 
-export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "Dropbox Clone",
@@ -29,10 +27,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
+          className={cn("min-h-screen bg-background font-sans antialiased")}
         >
           <ThemeProvider
             attribute="class"
