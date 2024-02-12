@@ -14,6 +14,8 @@ import { useAppStore } from "@/store/store"
 import { useUser } from "@clerk/nextjs"
 import { deleteDoc, doc } from "firebase/firestore"
 import { deleteObject, ref } from "firebase/storage"
+import toast from "react-hot-toast";
+
 
 export function DeleteModel() {
     const { user } = useUser();
@@ -32,7 +34,7 @@ export function DeleteModel() {
         if (!user || !fileId) return
         console.log('hello world');
         console.log('fileId::::', fileId);
-
+        const toastId = toast.loading("Deleting...");
 
         const fileRef = ref(storage, `users/${user.id}/files/${fileId}`);
 
@@ -43,6 +45,9 @@ export function DeleteModel() {
                     deleteDoc(doc(db, "users", user.id, "files", fileId)).then(
                         () => {
                             console.log("Deleted");
+                            toast.success("Deleted Successfully", {
+                                id: toastId,
+                            });
                         }
                     );
 
@@ -54,12 +59,14 @@ export function DeleteModel() {
             console.log("Uh-oh! An error occurred!", error);
 
             setIsDeleteModalOpen(false);
+            toast.error("Error deleting document", {
+                id: toastId,
+            });
         }
 
     }
     return (
         <Dialog
-            // @ts-ignore
             open={isDeleteModalOpen}
             onOpenChange={(isOpen) => setIsDeleteModalOpen(isOpen)}
         >

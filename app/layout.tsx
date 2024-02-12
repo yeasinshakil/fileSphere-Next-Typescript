@@ -7,6 +7,8 @@ import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/header/theme-provider";
+import { Toaster } from "react-hot-toast";
+
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -40,6 +42,7 @@ export default function RootLayout({
           >
             <Header />
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
