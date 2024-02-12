@@ -26,6 +26,7 @@
     "react-dropzone": "^14.2.3",
     "react-file-icon": "^1.4.0",
     "react-firebase-hooks": "^5.1.1",
+    "react-hot-toast": "^2.4.1",
     "react-toastify": "^10.0.4",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",

@@ -1,6 +1,5 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+'use client'
+import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogClose,
@@ -9,18 +8,15 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { db, storage } from "@/firebase";
-import { useAppStore } from "@/store/store";
-import { useUser } from "@clerk/nextjs";
-import { deleteDoc, doc } from "firebase/firestore";
-import { deleteObject, ref } from "firebase/storage";
-import { toast } from "react-toastify";
+} from "@/components/ui/dialog"
+import { db, storage } from "@/firebase"
+import { useAppStore } from "@/store/store"
+import { useUser } from "@clerk/nextjs"
+import { deleteDoc, doc } from "firebase/firestore"
+import { deleteObject, ref } from "firebase/storage"
 
 export function DeleteModel() {
     const { user } = useUser();
-
     const [setIsDeleteModalOpen, isDeleteModalOpen, fileId] = useAppStore(
         (state) => [
             state.setIsDeleteModalOpen,
@@ -28,85 +24,68 @@ export function DeleteModel() {
             state.fileId,
         ]
     );
+    const deleteFile = async () => {
+        console.log('deleteModal::', isDeleteModalOpen);
+        console.log('FileId::', fileId);
+        console.log('chekc');
 
-    async function deleteFile() {
-
-        if (!user || !fileId) return;
-
-        const toastId = toast.loading("Deleting...");
+        if (!user || !fileId) return
+        console.log('hello world');
+        console.log('fileId::::', fileId);
 
 
         const fileRef = ref(storage, `users/${user.id}/files/${fileId}`);
 
-        // await deleteObject(fileRef)
-        //   .then(async () => {
-        //     deleteDoc(doc(db, "users", user.id, "files", fileId));
-        //     console.log("File Deleted");
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
-
         try {
             deleteObject(fileRef)
                 .then(async () => {
-                    deleteDoc(doc(db, "users", user.id, "files", fileId)).then(() => {
-                        // console.log("File Deleted");
-                        toast.success("Deleted Successfully", {
-                            id: toastId,
-                        });
+                    console.log("File Deleted");
+                    deleteDoc(doc(db, "users", user.id, "files", fileId)).then(
+                        () => {
+                            console.log("Deleted");
+                        }
+                    );
 
-                    });
                 })
                 .finally(() => {
                     setIsDeleteModalOpen(false);
                 });
         } catch (error) {
-            console.log(error);
+            console.log("Uh-oh! An error occurred!", error);
+
             setIsDeleteModalOpen(false);
-            toast.error("Error deleting document", {
-                id: toastId,
-            });
-
         }
-    }
 
+    }
     return (
         <Dialog
+            // @ts-ignore
             open={isDeleteModalOpen}
             onOpenChange={(isOpen) => setIsDeleteModalOpen(isOpen)}
         >
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Are you sure uou want to delete?</DialogTitle>
+                    <DialogTitle>Are you sure you want to delete?</DialogTitle>
                     <DialogDescription>
-                        This action cannot be undone. This will permanently delete your
-                        file!
+                        This action cannot be undone. This will permanently delete your file!
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex space-x-2 py-3">
-                    <Button
-                        size={"sm"}
-                        className="px-3 flex-1"
-                        variant={"ghost"}
-                        onClick={() => setIsDeleteModalOpen(false)}
-                    >
+
+                    <Button className="px-3 flex-1" variant={"ghost"} size={"sm"} onClick={() => setIsDeleteModalOpen(false)}>
                         <span className="sr-only">Cancel</span>
                         <span>Cancel</span>
                     </Button>
 
-                    <Button
-                        size={"sm"}
-                        type="submit"
-                        variant={"destructive"}
-                        className="px-3 flex-1"
-                        onClick={() => deleteFile()}
-                    >
+
+                    <Button type="submit" className="px-3 flex-1" variant={"ghost"} size={"sm"} onClick={() => deleteFile()}>
                         <span className="sr-only">Delete</span>
                         <span>Delete</span>
                     </Button>
+
                 </div>
+
             </DialogContent>
         </Dialog>
-    );
+    )
 }
