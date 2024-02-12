@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
     useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
     Table,
@@ -14,15 +14,16 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { Button } from "../ui/button"
-import { PencilIcon, TrashIcon } from "lucide-react"
-import { FileType } from "@/typings"
-import { useAppStore } from "@/store/store"
+} from "@/components/ui/table";
+import { Button } from "../ui/button";
+import { PencilIcon, TrashIcon } from "lucide-react";
+import { FileType } from "@/typings";
+import { useAppStore } from "@/store/store";
+import { DeleteModel } from "../DeleteModal";
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -33,19 +34,28 @@ export function DataTable<TData, TValue>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-    })
+    });
 
-    const [setFileId, setFilename, setIsDeleteModalOpen, setIsRenameModalOpen] = useAppStore((state) => [state.setFileId, state.setFilename, state.setIsDeleteModalOpen, state.setIsRenameModalOpen])
+    const [setIsDeleteModalOpen, setFileId, setFilename, setIsRenameModalOpen] =
+        useAppStore((state) => [
+            state.setIsDeleteModalOpen,
+            state.setFileId,
+            state.setFilename,
+            state.setIsRenameModalOpen,
+        ]);
 
-    const openDeleteModal = (filedId: string) => {
-        setFileId(filedId)
-        setIsDeleteModalOpen(true)
-    }
-    const openRenameModal = (filedId: string, filename: string) => {
-        setFileId(filedId)
-        setFilename(filename)
-        setIsRenameModalOpen(true)
-    }
+    const openDeleteModel = (fileId: string) => {
+        console.log('table::', fileId);
+
+        setFileId(fileId);
+        setIsDeleteModalOpen(true);
+    };
+
+    const openRenameModal = (fileId: string, filename: string) => {
+        setFileId(fileId);
+        setFilename(filename);
+        setIsRenameModalOpen(true);
+    };
 
     return (
         <div className="rounded-md border">
@@ -63,7 +73,7 @@ export function DataTable<TData, TValue>({
                                                 header.getContext()
                                             )}
                                     </TableHead>
-                                )
+                                );
                             })}
                         </TableRow>
                     ))}
@@ -75,37 +85,46 @@ export function DataTable<TData, TValue>({
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
                             >
+                                <DeleteModel />
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
-                                        {cell.column.id === 'timestamp' ? (
+                                        {cell.column.id === "timestamp" ? (
                                             <div className="flex flex-col">
                                                 <div className="text-sm">
                                                     {(cell.getValue() as Date).toLocaleDateString()}
                                                 </div>
-                                                <div className="text-xs text-gray-500">
+
+                                                <div className="text-sm text-gray-500">
                                                     {(cell.getValue() as Date).toLocaleTimeString()}
                                                 </div>
                                             </div>
+                                        ) : cell.column.id === "filename" ? (
+                                            <p
+                                                onClick={() =>
+                                                    openRenameModal(
+                                                        (row.original as FileType).id,
+                                                        (row.original as FileType).fileName
+                                                    )
+                                                }
+                                                className="underline flex items-center text-blue-500 hover:cursor-pointer"
+                                            >
+                                                {cell.getValue() as string}.{" "}
+                                                <PencilIcon size={15} className="ml-2" />
+                                            </p>
                                         ) : (
-                                            cell.column.id === 'fileName' ? (
-                                                <p className="underline flex items-center text-blue-500 hover:cursor-pointer"
-                                                    onClick={() => { openRenameModal((row.original as FileType).id, (row.original as FileType).fileName) }
-                                                    }
-                                                >
-                                                    {cell.getValue() as string} {""}
-                                                    <PencilIcon size={15} className="ml-2" />
-                                                </p>
-                                            ) : (
-                                                flexRender(cell.column.columnDef.cell, cell.getContext())
-                                            )
+                                            flexRender(cell.column.columnDef.cell, cell.getContext())
                                         )}
-
                                     </TableCell>
                                 ))}
 
                                 <TableCell key={(row.original as FileType).id}>
-                                    <Button variant={"outline"} onClick={() => { openDeleteModal((row.original as FileType).id) }}>
-                                        <TrashIcon />
+                                    <Button
+                                        variant={"outline"}
+                                        onClick={() => {
+                                            openDeleteModel((row.original as FileType).id);
+                                        }}
+                                    >
+                                        <TrashIcon size={20} />
                                     </Button>
                                 </TableCell>
                             </TableRow>
@@ -113,12 +132,12 @@ export function DataTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                You have no files.
+                                You have no Files...!
                             </TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }

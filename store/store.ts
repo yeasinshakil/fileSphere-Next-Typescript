@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 interface AppState {
     isDeleteModalOpen: boolean;
@@ -11,15 +11,14 @@ interface AppState {
     setFileId: (fileId: string) => void;
 
     filename: string;
-    setFilename: (filename: string) => void
-
+    setFilename: (filename: string) => void;
 }
 
 export const useAppStore = create<AppState>()((set) => ({
     fileId: null,
     setFileId: (fileId: string) => set((state) => ({ fileId })),
 
-    filename: '',
+    filename: "",
     setFilename: (filename: string) => set((state) => ({ filename })),
 
     isDeleteModalOpen: false,
@@ -27,5 +26,4 @@ export const useAppStore = create<AppState>()((set) => ({
 
     isRenameModalOpen: false,
     setIsRenameModalOpen: (open) => set((state) => ({ isRenameModalOpen: open })),
-
-}))
+}));
