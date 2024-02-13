@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:prod": "next test --browser=chromeHeadless --watch=false --code-coverage"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
