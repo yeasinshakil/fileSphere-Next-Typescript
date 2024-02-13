@@ -13,6 +13,8 @@ jobs:
       Test:
         runs-on: ubuntu-latest
         steps:
+            - name: Debug Information
+              run: echo "Running tests..."
 
             - uses: actions/checkout@v3
 
@@ -27,7 +29,9 @@ jobs:
         needs: [Test]
         runs-on: ubuntu-latest
         steps:
-
+            - name: Debug Information
+              run: echo "Deploying preview..."
+              
             - uses: actions/checkout@v3
 
             - name: Install Vercel CLI
