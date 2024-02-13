@@ -8,8 +8,7 @@ export default function Home() {
       <div className="container py-5 flex flex-col lg:flex-row items-center gap-10 lg:gap-2">
         <div className="lg:w-[50%] flex flex-col space-y-5 text-white">
           <h1 className="text-5xl font-bold">
-            Everything you and your business need to work efficiently, all in
-            one place
+            Only Shakil Bro is here
           </h1>
           <p className="pb-7 lg:pb-20">
             Collaborate seamlessly and deliver work faster from anywhere with
