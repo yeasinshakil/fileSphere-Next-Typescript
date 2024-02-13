@@ -25,7 +25,7 @@ const page = async () => {
     <div className="border-t">
       <DropzoneComponent />
       <section className="container space-y-5">
-        <h2 className="font-bold">All Files</h2>
+        <h2 className="font-bold pt-5">All Files</h2>
         <div>
           <TableWrapper skeletonFiles={skeletonFile} />
         </div>

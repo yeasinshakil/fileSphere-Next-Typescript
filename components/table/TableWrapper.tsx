@@ -15,20 +15,41 @@ const TableWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
     const { user } = useUser();
     const [initialFiles, setInitialFiles] = useState<FileType[]>([])
     const [sort, setSort] = useState<"asc" | "desc">('desc')
-    const [docs, loading, error] = useCollection(user && query(collection(db, 'users', user.id, 'files'), orderBy('timestamp', sort)));
+    const [docs, loading, error] = useCollection(
+        user &&
+        query(
+            collection(db, "users", user.id, "files"),
+            orderBy("timestamp", sort)
+        )
+    );
+    // useEffect(() => {
+    //     if (!docs) return
+    //     const files: FileType[] = docs.docs.map((doc) => ({
+    //         id: doc.id,
+    //         fileName: doc.data().fileName || doc.id,
+    //         fullName: doc.data().fullName,
+    //         timestamp: new Date(doc.data().timestamp?.seconds * 1000) || undefined,
+    //         downloadUrl: doc.data().downloadUrl,
+    //         type: doc.data().type,
+    //         size: doc.data().size
+    //     }))
+    //     setInitialFiles(files)
+    // }, [docs])
     useEffect(() => {
-        if (!docs) return
+        if (!docs) return;
+
         const files: FileType[] = docs.docs.map((doc) => ({
             id: doc.id,
             fileName: doc.data().fileName || doc.id,
-            fullName: doc.data().fullName,
             timestamp: new Date(doc.data().timestamp?.seconds * 1000) || undefined,
+            fullName: doc.data().fullName,
             downloadUrl: doc.data().downloadUrl,
             type: doc.data().type,
-            size: doc.data().size
-        }))
-        setInitialFiles(files)
-    }, [docs])
+            size: doc.data().size,
+        }));
+
+        setInitialFiles(files);
+    }, [docs]);
     if (docs?.docs.length === undefined) {
         return (
             <div className='flex flex-col'>
@@ -55,13 +76,15 @@ const TableWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
         )
     }
     return (
-        <div className='flex flex-col space-y-5 pb-10'>
+        <div className="flex flex-col space-y-5 pb-10">
             <Button
-                variant={'outline'}
-                onClick={() => setSort(sort === 'desc' ? 'asc' : 'desc')}
-                className='ml-auto w-fit'
-            >Sort by: {sort === 'desc' ? 'Newest' : 'Oldest'}</Button>
-            <DataTable columns={columns} data={skeletonFiles} />
+                variant={"outline"}
+                onClick={() => setSort(sort === "desc" ? "asc" : "desc")}
+                className="ml-auto w-fit"
+            >
+                Sort By {sort === "desc" ? "Newest" : "Oldest"}
+            </Button>
+            <DataTable columns={columns} data={initialFiles} />
         </div>
     );
 };
