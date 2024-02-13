@@ -85,7 +85,7 @@ export function DeleteModel() {
                     </Button>
 
 
-                    <Button type="submit" className="px-3 flex-1" variant={"ghost"} size={"sm"} onClick={() => deleteFile()}>
+                    <Button type="submit" className="px-3 flex-1" variant={"destructive"} size={"sm"} onClick={() => deleteFile()}>
                         <span className="sr-only">Delete</span>
                         <span>Delete</span>
                     </Button>
