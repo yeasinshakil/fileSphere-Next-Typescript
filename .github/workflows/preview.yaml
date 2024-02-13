@@ -21,9 +21,9 @@ jobs:
               with:
                  node-version: 20
 
-             - run: npm ci
+            - run: npm ci
 
-             - run: npm run test:prod
+            - run: npm run test:prod
 
     Deploy-Preview:
         needs: [Test]
