@@ -26,7 +26,7 @@ const Header = () => {
 
           <UserButton afterSignOutUrl="/" />
           <SignedOut>
-            <SignInButton afterSignInUrl="/" mode="modal" />
+            <SignInButton afterSignInUrl="/dashboard" mode="modal" />
           </SignedOut>
         </div>
       </div>
