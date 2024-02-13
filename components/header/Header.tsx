@@ -16,7 +16,7 @@ const Header = () => {
             width={50}
             height={50}
           />
-          <h1 className=" font-bold text-xl">Dropbox</h1>
+          <h1 className=" font-bold text-xl">FileSphere</h1>
         </Link>
         <div className=" flex space-x-2 items-center">
           {/* Toggle theme button */}

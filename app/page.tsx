@@ -13,8 +13,8 @@ export default function Home() {
           </h1>
           <p className="pb-7 lg:pb-20">
             Collaborate seamlessly and deliver work faster from anywhere with
-            Dropbox. Securely store your content, edit PDFs, share videos, sign
-            documents and track file engagement—without leaving Dropbox.
+            FileSphere. Securely store your content, edit PDFs, share videos, sign
+            documents and track file engagement—without leaving FileSphere.
           </p>
 
           <Link href={"/dashboard"}>
