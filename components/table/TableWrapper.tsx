@@ -22,19 +22,7 @@ const TableWrapper = ({ skeletonFiles }: { skeletonFiles: FileType[] }) => {
             orderBy("timestamp", sort)
         )
     );
-    // useEffect(() => {
-    //     if (!docs) return
-    //     const files: FileType[] = docs.docs.map((doc) => ({
-    //         id: doc.id,
-    //         fileName: doc.data().fileName || doc.id,
-    //         fullName: doc.data().fullName,
-    //         timestamp: new Date(doc.data().timestamp?.seconds * 1000) || undefined,
-    //         downloadUrl: doc.data().downloadUrl,
-    //         type: doc.data().type,
-    //         size: doc.data().size
-    //     }))
-    //     setInitialFiles(files)
-    // }, [docs])
+
     useEffect(() => {
         if (!docs) return;
 
